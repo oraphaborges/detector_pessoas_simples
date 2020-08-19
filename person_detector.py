@@ -1,5 +1,10 @@
+import os
 import cv2
 import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.neighbors import NearestNeighbors
+
+QUANTIDADE_PALAVRAS_VIRTUAIS = 512 
 
 # Pegando os detectores de uma imagem
 # Utiliando o ORB
@@ -20,10 +25,29 @@ def get_descritores(caminho):
 
     return descritores
 
+# Tecnica dos pacotes de palavras visual
+class PacoteDePalavras:
+    def gerar_dicionario(self, lista_descritores):
+        kmeans = KMeans(n_clusters = QUANTIDADE_PALAVRAS_VIRTUAIS)
+        kmeans = kmeans.fit(lista_descritores)
+        self.dicionario = kmeans.cluster_centers_
+
+    def histograma_de_frequencia(self, descritor):
+        try:
+            KNN = NearestNeighbors(n_neighbors=1)
+            KNN.fit(self.dicionario)
+            mais_prox = KNN.kneighbors(descritor, return_distance=False).flatten()
+
+            histograma_caracteristicas = np.histogram(mais_prox, bins = np.arange(self.dicionario.shape[0]+1) )[0]
+
+            return histograma_caracteristicas
+        except AttributeError:
+            print("O atributo dicionario não foi definido")
+
 caminho = 'dadosImagem/Treinamento/positivos/crop_000010.png'
 descritor = get_descritores(caminho)
+TPV = PacoteDePalavras()
+TPV.gerar_dicionario(descritor)
 
-print("TIPO:", type(descritor))
-print("TAMANHO:",descritor.shape)
-print('\nPONTO[0]', descritor[0])
-
+histograma_caracteristicas = TPV.histograma_de_frequencia(descritor)
+print(histograma_caracteristicas)
