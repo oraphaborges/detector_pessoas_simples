@@ -81,3 +81,9 @@ for caminho in dados_treinamento:
                 descritores = np.append(descritores,orb_descritor, axis=0)
     except ValueError:
         continue
+
+# Montagem dos pacotes de palavras
+print("gerando dicionário a partir do descritores obtidos")
+img_representacao = PacoteDePalavras()
+img_representacao.gerar_dicionario(descritores)
+img_representacao.salvar_dicionario('dadosImagem/')
