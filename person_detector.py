@@ -4,6 +4,8 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
 
+from tqdm import tqdm as pbar
+
 QUANTIDADE_PALAVRAS_VIRTUAIS = 512 
 
 # Pegando os detectores de uma imagem
@@ -72,12 +74,10 @@ descritores = np.empty((0,32), dtype=np.uint8)
 # Obtendo os descritores das imagens
 for caminho in dados_treinamento:
   for raiz,diretorios,arquivos in os.walk(caminho):
-    for arquivo in arquivos:
-      if arquivo.endswith('.png'):
-        orb_descritor = get_descritores(os.path.join(caminho,arquivo))
-        descritores = np.append(descritores,orb_descritor, axis=0)
-
-# Montagem dos pacotes de palavras
-img_representacao = PacoteDePalavras()
-img_representacao.gerar_dicionario(descritores)
-img_representacao.salvar_dicionario('dadosImagem/')
+    try:
+        for arquivo in pbar(arquivos):
+            if arquivo.endswith('.png'):
+                orb_descritor = get_descritores(os.path.join(caminho,arquivo))
+                descritores = np.append(descritores,orb_descritor, axis=0)
+    except ValueError:
+        continue
