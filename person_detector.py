@@ -6,8 +6,7 @@ from sklearn.neighbors import NearestNeighbors
 
 from tqdm import tqdm as pbar
 
-QUANTIDADE_PALAVRAS_VIRTUAIS = 512 
-
+QUANTIDADE_PALAVRAS_VIRTUAIS = 128
 # Pegando os detectores de uma imagem
 # Utiliando o ORB
 def get_descritores(caminho):
@@ -27,7 +26,7 @@ def get_descritores(caminho):
 
     return descritores
 
-def salvar_descritor(descritor,caminho,nome_arquivo):
+def salvar_descritor(descritor,caminho,nome_arquivo='orb_descritor.csv'):
     descritor = descritor.reshape((1,descritor.size))
     arquivo = open(os.path.join(caminho,nome_arquivo), 'a')
     np.savetxt(arquivo,descritor,delimiter=',', fmt='%i')
@@ -52,7 +51,6 @@ class PacoteDePalavras:
             mais_prox = KNN.kneighbors(descritor, return_distance=False).flatten()
 
             histograma_caracteristicas = np.histogram(mais_prox, bins = np.arange(self.dicionario.shape[0]+1) )[0]
-
             return histograma_caracteristicas
         except AttributeError:
             print("O atributo dicionario não foi definido")
@@ -87,6 +85,7 @@ print("gerando dicionário a partir do descritores obtidos")
 img_representacao = PacoteDePalavras()
 img_representacao.gerar_dicionario(descritores)
 img_representacao.salvar_dicionario('dadosImagem/')
+# img_representacao.carregar_dicionario("dadosImagem/")
 
 # computar descritores gerando um hisograma de cada imagem, separadamente
 print('iniciando a extração de características')
