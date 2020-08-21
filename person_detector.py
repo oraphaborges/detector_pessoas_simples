@@ -90,11 +90,7 @@ img_representacao.salvar_dicionario('dadosImagem/')
 
 # computar descritores gerando um hisograma de cada imagem, separadamente
 print('iniciando a extração de características')
-for caminho in dados_treinamento:
-  for raiz,diretorios,arquivos in os.walk(caminho):
-    for arquivo in pbar(arquivos):
-      if arquivo.endswith('.png'):
-        descritor = get_descritores(os.path.join(caminho,arquivo))
-        histograma_descritor = img_representacao.histograma_de_frequencia(descritor)
-        salvar_descritor(histograma_descritor,'dadosImagem/')
+for descritor in descritores:
+    histograma_descritor = img_representacao.histograma_de_frequencia(descritor)
+    salvar_descritor(histograma_descritor,'dadosImagem/')
 print('extração caracteristica finalizada e descritores salvos')
