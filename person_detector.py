@@ -1,6 +1,7 @@
 import os
 import cv2
 import numpy as np
+import time
 from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
 
@@ -41,7 +42,10 @@ def carregar_descritores(caminho,nome_arquivo='orb_descritor.csv'):
 class PacoteDePalavras:
     def gerar_dicionario(self, lista_descritores):
         kmeans = KMeans(n_clusters = QUANTIDADE_PALAVRAS_VIRTUAIS)
+        t0 = time.time()
         kmeans = kmeans.fit(lista_descritores)
+        tf = time.time()
+        print(f'tempo de execução: {(tf-t0)}')
         self.dicionario = kmeans.cluster_centers_
 
     def histograma_de_frequencia(self, descritor):
