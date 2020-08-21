@@ -64,3 +64,15 @@ class PacoteDePalavras:
 
     def carregar_dicionario(self, caminho="",nome_dicionario="dicionario.csv"):
         self.dicionario = np.loadtxt(os.path.join(caminho,nome_dicionario),delimiter=",")
+
+# ROTINA DE CLASSIFICAÇÃO
+dados_treinamento = ['dadosImagem/Treinamento/positivos','dadosImagem/Treinamento/negativos']
+descritores = np.empty((0,32), dtype=np.uint8)
+
+# Obtendo os descritores das imagens
+for caminho in dados_treinamento:
+  for raiz,diretorios,arquivos in os.walk(caminho):
+    for arquivo in arquivos:
+      if arquivo.endswith('.png'):
+        orb_descritor = get_descritores(os.path.join(caminho,arquivo))
+        descritores = np.append(descritores,orb_descritor, axis=0)
