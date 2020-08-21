@@ -74,26 +74,32 @@ dados_treinamento = ['dadosImagem/Treinamento/positivos','dadosImagem/Treinament
 descritores = np.empty((0,32), dtype=np.uint8)
 
 # Obtendo os descritores das imagens
-for caminho in dados_treinamento:
-  for raiz,diretorios,arquivos in os.walk(caminho):
-    try:
-        for arquivo in pbar(arquivos):
-            if arquivo.endswith('.png'):
-                orb_descritor = get_descritores(os.path.join(caminho,arquivo))
-                descritores = np.append(descritores,orb_descritor, axis=0)
-    except ValueError:
-        continue
+# for caminho in dados_treinamento:
+#   for raiz,diretorios,arquivos in os.walk(caminho):
+#     try:
+#         for arquivo in pbar(arquivos):
+#             if arquivo.endswith('.png'):
+#                 orb_descritor = get_descritores(os.path.join(caminho,arquivo))
+#                 descritores = np.append(descritores,orb_descritor, axis=0)
+#     except ValueError:
+#         continue
 
 # Montagem dos pacotes de palavras
 print("gerando dicionário a partir do descritores obtidos")
 img_representacao = PacoteDePalavras()
-img_representacao.gerar_dicionario(descritores)
-img_representacao.salvar_dicionario('dadosImagem/')
-# img_representacao.carregar_dicionario("dadosImagem/")
+# img_representacao.gerar_dicionario(descritores)
+# img_representacao.salvar_dicionario('dadosImagem/')
+img_representacao.carregar_dicionario("dadosImagem/")
 
 # computar descritores gerando um hisograma de cada imagem, separadamente
 print('iniciando a extração de características')
-for descritor in descritores:
-    histograma_descritor = img_representacao.histograma_de_frequencia(descritor)
-    salvar_descritor(histograma_descritor,'dadosImagem/')
-print('extração caracteristica finalizada e descritores salvos')
+# for descritor in descritores:
+#     histograma_descritor = img_representacao.histograma_de_frequencia(descritor)
+#     salvar_descritor(histograma_descritor,'dadosImagem/')
+# print('extração caracteristica finalizada e descritores salvos')
+
+descritores = np.empty((0,QUANTIDADE_PALAVRAS_VIRTUAIS))
+for caminho in dados_treinamento:
+  descritores = np.append(descritores,carregar_descritores('dadosImagem/'),axis=0)
+print('Carregado os Descritores')
+
