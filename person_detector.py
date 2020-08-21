@@ -76,3 +76,8 @@ for caminho in dados_treinamento:
       if arquivo.endswith('.png'):
         orb_descritor = get_descritores(os.path.join(caminho,arquivo))
         descritores = np.append(descritores,orb_descritor, axis=0)
+
+# Montagem dos pacotes de palavras
+img_representacao = PacoteDePalavras()
+img_representacao.gerar_dicionario(descritores)
+img_representacao.salvar_dicionario('dadosImagem/')
