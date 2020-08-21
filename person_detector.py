@@ -25,6 +25,17 @@ def get_descritores(caminho):
 
     return descritores
 
+def salvar_descritor(descritor,caminho,nome_arquivo):
+    descritor = descritor.reshape((1,descritor.size))
+    arquivo = open(os.path.join(caminho,nome_arquivo), 'a')
+    np.savetxt(arquivo,descritor,delimiter=',', fmt='%i')
+    arquivo.close()
+
+def carregar_descritores(caminho,nome_arquivo='orb_descritor.csv'):
+    descritores = np.loadtxt(os.path.join(caminho,nome_arquivo), delimiter=',')
+    print('Arr format', descritores.shape)
+    return descritores
+
 # Tecnica dos pacotes de palavras visual
 class PacoteDePalavras:
     def gerar_dicionario(self, lista_descritores):
@@ -43,7 +54,7 @@ class PacoteDePalavras:
             return histograma_caracteristicas
         except AttributeError:
             print("O atributo dicionario não foi definido")
-            
+
     def salvar_dicionario(self, caminho='', nome_dicionario = 'dicionario.csv'):
         try:
             np.savetxt(os.path.join(caminho, nome_dicionario), self.dicionario, delimiter=',', fmt='%f')
