@@ -69,7 +69,7 @@ class PacoteDePalavras:
     def carregar_dicionario(self, caminho="",nome_dicionario="dicionario.csv"):
         self.dicionario = np.loadtxt(os.path.join(caminho,nome_dicionario),delimiter=",")
 
-# ROTINA DE CLASSIFICAÇÃO
+# ROTINA DE CLASSIFICAÇÃO - PRÉ-PROCESSAMENTO
 dados_treinamento = ['dadosImagem/Treinamento/positivos','dadosImagem/Treinamento/negativos']
 descritores = np.empty((0,32), dtype=np.uint8)
 
@@ -103,3 +103,4 @@ for caminho in dados_treinamento:
   descritores = np.append(descritores,carregar_descritores('dadosImagem/'),axis=0)
 print('Carregado os Descritores')
 
+## CLASSIFICAÇÃO DAS IMAGENS
