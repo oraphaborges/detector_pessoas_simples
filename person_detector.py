@@ -64,11 +64,3 @@ class PacoteDePalavras:
 
     def carregar_dicionario(self, caminho="",nome_dicionario="dicionario.csv"):
         self.dicionario = np.loadtxt(os.path.join(caminho,nome_dicionario),delimiter=",")
-
-caminho = 'dadosImagem/Treinamento/positivos/crop_000010.png'
-descritor = get_descritores(caminho)
-TPV = PacoteDePalavras()
-TPV.gerar_dicionario(descritor)
-
-histograma_caracteristicas = TPV.histograma_de_frequencia(descritor)
-print(histograma_caracteristicas)
