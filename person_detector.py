@@ -43,6 +43,16 @@ class PacoteDePalavras:
             return histograma_caracteristicas
         except AttributeError:
             print("O atributo dicionario não foi definido")
+            
+    def salvar_dicionario(self, caminho='', nome_dicionario = 'dicionario.csv'):
+        try:
+            np.savetxt(os.path.join(caminho, nome_dicionario), self.dicionario, delimiter=',', fmt='%f')
+            print("Dicionário salvo")
+        except AttributeError:
+            print("Dicionário vazio")
+
+    def carregar_dicionario(self, caminho="",nome_dicionario="dicionario.csv"):
+        self.dicionario = np.loadtxt(os.path.join(caminho,nome_dicionario),delimiter=",")
 
 caminho = 'dadosImagem/Treinamento/positivos/crop_000010.png'
 descritor = get_descritores(caminho)
